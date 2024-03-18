@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  memgraph-connector:
+    build: .
+    hostname: memgraph-connector
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/opt/memgraph-connector/src
+      - ./data:/opt/memgraph-connector/data
+
+  # memgraph:
+  #   image: memgraph/memgraph-mage
+  #   hostname: memgraph
+  #   ports:
+  #     - "7687:7687"
+  #
