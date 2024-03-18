@@ -2,6 +2,7 @@ import boto3
 import os
 from typing import List
 from defaults import catch_error
+from defaults import data_path
 
 
 class S3Resource:
@@ -36,43 +37,46 @@ class S3Resource:
     @catch_error
     def download_file(
             self,
-            object_name,
-            output_file
+            object_name: str,
     ) -> str:
         """Downloads a file from the S3 bucket."""
 
         self.s3.meta.client.download_file(
             self.bucket_name,
             object_name,
-            output_file
+            os.path.join(data_path, f"{object_name}.txt")
         )
 
-        return output_file
+        return object_name
 
     @catch_error
     def batch_download_files(
             self,
-            object_names,
-            output_dir
+            object_names: List[str],
+            output_dir: str
     ) -> List[str]:
         """Downloads a batch of files from the S3 bucket."""
 
         output_files = list()
+        newpath = f"{data_path}/{output_dir}"
+        os.makedirs(newpath, exist_ok=True)
 
         for i in range(len(object_names)):
-            self.download_file(
+            self.s3.meta.client.download_file(
+                self.bucket_name,
                 object_names[i],
-                output_dir + object_names[i]
+                os.path.join(newpath, f"{object_names[i]}.txt")
             )
-            output_files.append(output_dir + object_names[i])
+
+            output_files.append(output_dir + "/" + object_names[i])
 
         return output_files
 
     @ catch_error
     def list_objects_paginated(
             self,
-            page_size=20,
-            start_after=None
+            page_size: int = 20,
+            start_after: str = None
     ) -> List[str]:
         """Lists all objects in the S3 bucket with pagination,
         starting after a specified key, but limits the results to page_size."""
