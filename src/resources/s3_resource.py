@@ -3,6 +3,7 @@ import os
 from typing import List
 from defaults import catch_error
 from defaults import data_path
+from io import BytesIO
 
 
 class S3Resource:
@@ -35,7 +36,21 @@ class S3Resource:
         return object_keys
 
     @catch_error
-    def download_file(
+    def load_file(
+            self,
+            object_name: str
+    ) -> BytesIO:
+        """Loads a file from S3 into a bytes buffer."""
+
+        response = self.s3.meta.client.get_object(
+            Bucket=self.bucket_name,
+            Key=object_name
+        )
+
+        return BytesIO(response['Body'].read())
+
+    @catch_error
+    def save_file(
             self,
             object_name: str,
     ) -> str:
@@ -50,7 +65,7 @@ class S3Resource:
         return object_name
 
     @catch_error
-    def batch_download_files(
+    def save_file_batched(
             self,
             object_names: List[str],
             output_dir: str
