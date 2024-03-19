@@ -57,7 +57,6 @@ class S3Resource:
         for page in pages:
             contents = page.get('Contents', [])
             for obj in contents:
-                print(obj['Key'])
                 all_keys.append(obj['Key'])
                 if len(all_keys) >= page_size:
                     return all_keys
