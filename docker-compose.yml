@@ -1,18 +1,11 @@
 version: '3.7'
 
 services:
-  memgraph-connector:
+  hackathon-project:
     build: .
-    hostname: memgraph-connector
+    hostname: hackathon-project
     ports:
       - "3000:3000"
     volumes:
-      - ./src:/opt/memgraph-connector/src
-      - ./data:/opt/memgraph-connector/data
-
-  # memgraph:
-  #   image: memgraph/memgraph-mage
-  #   hostname: memgraph
-  #   ports:
-  #     - "7687:7687"
-  #
+      - ./src:/opt/hackathon-lib/src
+      - ./data:/opt/hackathon-lib/data

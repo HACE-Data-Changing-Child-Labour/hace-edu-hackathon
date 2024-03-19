@@ -1,6 +1,6 @@
 FROM python:3.10.13-slim
 
-WORKDIR /opt/memgraph-connector
+WORKDIR /opt/hackathon-lib
 
 RUN python -m venv .venv
 

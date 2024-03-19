@@ -1,6 +1,7 @@
 import os
 import functools
 
+# Data path needed for Docker to correctly place files
 data_path = os.path.join(os.path.dirname(__file__), "../data")
 
 
